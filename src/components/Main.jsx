@@ -19,22 +19,22 @@ export default function Main() {
       setActiveTab(event.target.value);
   };
 
-  let sizes = [];
-  const onSize = size => {
-      sizes = [...sizes, size];
-  };
+  let basicWidth = 200;
 
   useEffect(() => {
-      const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
+    if (activeTab) {
+        // console.log(TABS[activeTab].items.length);
+        const sumWidth = TABS[activeTab].items.length * basicWidth;
+        // console.log(sumWidth);
 
-      const newHasRightScroll = sumWidth > ref.current.offsetWidth;
-      if (newHasRightScroll !== hasRightScroll) {
-          setHasRightScroll(newHasRightScroll);
-      }
-  }, [sizes, hasRightScroll]);
+        const newHasRightScroll = sumWidth > ref.current.offsetWidth;
+        if (newHasRightScroll !== hasRightScroll) {
+            setHasRightScroll(newHasRightScroll);
+        }
+    }
+  }, [activeTab, hasRightScroll, basicWidth]);
 
   const onArrowCLick = () => {
-    console.log(ref);
       const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
       if (scroller) {
           scroller.scrollTo({
@@ -176,7 +176,6 @@ export default function Main() {
                               <Event
                                   key={index}
                                   {...item}
-                                  onSize={onSize}
                               /> 
                           )}
                       </ul>
