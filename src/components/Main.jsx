@@ -23,9 +23,7 @@ export default function Main() {
 
   useEffect(() => {
     if (activeTab) {
-        // console.log(TABS[activeTab].items.length);
         const sumWidth = TABS[activeTab].items.length * basicWidth;
-        // console.log(sumWidth);
 
         const newHasRightScroll = sumWidth > ref.current.offsetWidth;
         if (newHasRightScroll !== hasRightScroll) {
