@@ -2,46 +2,101 @@ import React, { useEffect } from "react";
 import Event from "./Event";
 import { TABS, TABS_KEYS } from "../utils";
 
-export default function Main() {
-  const ref = React.useRef();
-  const initedRef = React.useRef(false);
-  const [activeTab, setActiveTab] = React.useState('');
-  const [hasRightScroll, setHasRightScroll] = React.useState(false);
+function List() {
+    const [activeTab, setActiveTab] = React.useState('');
+    const initedRef = React.useRef(false);
+    const ref = React.useRef();
+    const onSelectInput = event => {
+        setActiveTab(event.target.value);
+    };
+    const [hasRightScroll, setHasRightScroll] = React.useState(false);
 
-  useEffect(() => {
-      if (!activeTab && !initedRef.current) {
-          initedRef.current = true;
-          setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
-      }
-  }, [activeTab, initedRef]);
+    let basicWidth = 200;
 
-  const onSelectInput = event => {
-      setActiveTab(event.target.value);
-  };
+    useEffect(() => {
+        if (activeTab) {
+            const sumWidth = TABS[activeTab].items.length * basicWidth;
 
-  let basicWidth = 200;
-
-  useEffect(() => {
-    if (activeTab) {
-        const sumWidth = TABS[activeTab].items.length * basicWidth;
-
-        const newHasRightScroll = sumWidth > ref.current.offsetWidth;
-        if (newHasRightScroll !== hasRightScroll) {
-            setHasRightScroll(newHasRightScroll);
+            const newHasRightScroll = sumWidth > ref.current.offsetWidth;
+            if (newHasRightScroll !== hasRightScroll) {
+                setHasRightScroll(newHasRightScroll);
+            }
         }
-    }
-  }, [activeTab, hasRightScroll, basicWidth]);
+    }, [activeTab, hasRightScroll, basicWidth]);
 
-  const onArrowCLick = () => {
-      const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
-      if (scroller) {
-          scroller.scrollTo({
-              left: scroller.scrollLeft + 400,
-              behavior: 'smooth'
-          });
-      }
-  };
+    const onArrowCLick = () => {
+        const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
+        if (scroller) {
+            scroller.scrollTo({
+                left: scroller.scrollLeft + 400,
+                behavior: 'smooth'
+            });
+        }
+    };
 
+    useEffect(() => {
+        if (!activeTab && !initedRef.current) {
+            initedRef.current = true;
+            setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
+        }
+    }, [activeTab, initedRef]);
+
+    return (
+        <section className="section main__devices">
+          <div className="section__title">
+              <h2 className="section__title-header">
+                  Избранные устройства
+              </h2>
+
+              <select className="section__select" defaultValue="all" onInput={onSelectInput}>
+                  {TABS_KEYS.map(key =>
+                      <option key={key} value={key}>
+                          {TABS[key].title}
+                      </option>
+                  )}
+              </select>
+
+              <ul ref={ref} role="tablist" className="section__tabs">
+                  {TABS_KEYS.map(key =>
+                      <li
+                          key={key}
+                          role="tab"
+                          aria-selected={key === activeTab ? 'true' : 'false'}
+                          tabIndex={key === activeTab ? '0' : undefined}
+                          className={'section__tab' + (key === activeTab ? ' section__tab_active' : '')}
+                          id={`tab_${key}`}
+                          aria-controls={`panel_${key}`}
+                          onClick={() => setActiveTab(key)}
+                      >
+                          {TABS[key].title}
+                      </li>
+                  )}
+              </ul>
+          </div>
+
+          <div className="section__panel-wrapper">
+                {
+                  activeTab && <div key={activeTab} role="tabpanel" className={'section__panel'} id={`panel_${activeTab}`} aria-labelledby={`tab_${activeTab}`}>
+                      <ul className="section__panel-list">
+                          {
+                              TABS[activeTab].items.map((item, index) => 
+                              <Event
+                                  key={index}
+                                  {...item}
+                              /> 
+                          )}
+                      </ul>
+                  </div>
+                }
+              {hasRightScroll &&
+                  <div className="section__arrow" onClick={onArrowCLick}></div>
+              }
+          </div>
+      </section>
+    )
+}
+
+export default function Main() {
   return <main className="main">
       <section className="section main__general">
           <h2 className="section__title section__title-header section__main-title">Главное</h2>
@@ -132,57 +187,6 @@ export default function Main() {
               />
           </ul>
       </section>
-
-      <section className="section main__devices">
-          <div className="section__title">
-              <h2 className="section__title-header">
-                  Избранные устройства
-              </h2>
-
-              <select className="section__select" defaultValue="all" onInput={onSelectInput}>
-                  {TABS_KEYS.map(key =>
-                      <option key={key} value={key}>
-                          {TABS[key].title}
-                      </option>
-                  )}
-              </select>
-
-              <ul role="tablist" className="section__tabs">
-                  {TABS_KEYS.map(key =>
-                      <li
-                          key={key}
-                          role="tab"
-                          aria-selected={key === activeTab ? 'true' : 'false'}
-                          tabIndex={key === activeTab ? '0' : undefined}
-                          className={'section__tab' + (key === activeTab ? ' section__tab_active' : '')}
-                          id={`tab_${key}`}
-                          aria-controls={`panel_${key}`}
-                          onClick={() => setActiveTab(key)}
-                      >
-                          {TABS[key].title}
-                      </li>
-                  )}
-              </ul>
-          </div>
-
-          <div className="section__panel-wrapper" ref={ref}>
-                {
-                  activeTab && <div key={activeTab} role="tabpanel" className={'section__panel'} id={`panel_${activeTab}`} aria-labelledby={`tab_${activeTab}`}>
-                      <ul className="section__panel-list">
-                          {
-                              TABS[activeTab].items.map((item, index) => 
-                              <Event
-                                  key={index}
-                                  {...item}
-                              /> 
-                          )}
-                      </ul>
-                  </div>
-                }
-              {hasRightScroll &&
-                  <div className="section__arrow" onClick={onArrowCLick}></div>
-              }
-          </div>
-      </section>
+      <List />
   </main>;
 }
