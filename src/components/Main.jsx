@@ -13,28 +13,28 @@ export default function Main() {
           initedRef.current = true;
           setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
       }
-  }, [setActiveTab, activeTab, initedRef]);
+  }, [activeTab, initedRef]);
 
   const onSelectInput = event => {
       setActiveTab(event.target.value);
   };
 
-  let indexesLength = 0, basicWidth = 200;
-  const onSize = () => {
-      indexesLength = indexesLength + 1;
+  let sizes = [];
+  const onSize = size => {
+      sizes = [...sizes, size];
   };
 
   useEffect(() => {
-      const sumWidth = indexesLength * basicWidth;
+      const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
 
       const newHasRightScroll = sumWidth > ref.current.offsetWidth;
       if (newHasRightScroll !== hasRightScroll) {
           setHasRightScroll(newHasRightScroll);
       }
-  }, [indexesLength, basicWidth, hasRightScroll]);
+  }, [sizes, hasRightScroll]);
 
   const onArrowCLick = () => {
-    // console.log(ref);
+    console.log(ref);
       const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
       if (scroller) {
           scroller.scrollTo({
