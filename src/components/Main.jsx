@@ -168,11 +168,11 @@ export default function Main() {
           </div>
 
           <div className="section__panel-wrapper" ref={ref}>
-              {TABS_KEYS.map(key =>
-                  <div key={key} role="tabpanel" className={'section__panel' + (key === activeTab ? '' : ' section__panel_hidden')} aria-hidden={key === activeTab ? 'false' : 'true'} id={`panel_${key}`} aria-labelledby={`tab_${key}`}>
+                {
+                  activeTab && <div key={activeTab} role="tabpanel" className={'section__panel' + (activeTab === activeTab ? '' : ' section__panel_hidden')} id={`panel_${activeTab}`} aria-labelledby={`tab_${activeTab}`}>
                       <ul className="section__panel-list">
                           {
-                              TABS[key].items.map((item, index) => 
+                              TABS[activeTab].items.map((item, index) => 
                               <Event
                                   key={index}
                                   {...item}
@@ -180,7 +180,7 @@ export default function Main() {
                           )}
                       </ul>
                   </div>
-              )}
+                }
               {hasRightScroll &&
                   <div className="section__arrow" onClick={onArrowCLick}></div>
               }
