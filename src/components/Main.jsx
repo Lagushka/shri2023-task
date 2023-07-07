@@ -34,7 +34,7 @@ export default function Main() {
   }, [indexesLength, basicWidth, hasRightScroll]);
 
   const onArrowCLick = () => {
-    console.log(ref);
+    // console.log(ref);
       const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
       if (scroller) {
           scroller.scrollTo({
