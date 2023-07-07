@@ -169,7 +169,7 @@ export default function Main() {
 
           <div className="section__panel-wrapper" ref={ref}>
                 {
-                  activeTab && <div key={activeTab} role="tabpanel" className={'section__panel' + (activeTab === activeTab ? '' : ' section__panel_hidden')} id={`panel_${activeTab}`} aria-labelledby={`tab_${activeTab}`}>
+                  activeTab && <div key={activeTab} role="tabpanel" className={'section__panel'} id={`panel_${activeTab}`} aria-labelledby={`tab_${activeTab}`}>
                       <ul className="section__panel-list">
                           {
                               TABS[activeTab].items.map((item, index) => 

@@ -519,10 +519,6 @@ html, body {
     display: none;
 }
 
-.section__panel_hidden {
-    display: none;
-}
-
 .section__panel-list {
     display: flex;
     gap: 0.9375rem;
