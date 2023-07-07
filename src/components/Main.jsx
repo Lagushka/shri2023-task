@@ -42,7 +42,7 @@ function List() {
     }, [activeTab, initedRef]);
 
     return (
-        <section className="section main__devices">
+        <section className="section main__devices" ref={ref}>
           <div className="section__title">
               <h2 className="section__title-header">
                   Избранные устройства
@@ -56,7 +56,7 @@ function List() {
                   )}
               </select>
 
-              <ul ref={ref} role="tablist" className="section__tabs">
+              <ul role="tablist" className="section__tabs">
                   {TABS_KEYS.map(key =>
                       <li
                           key={key}
