@@ -414,7 +414,7 @@ html, body {
     }
 }
 
-.event {
+.event_wrapper .event {
     width: 200px;
 }
 

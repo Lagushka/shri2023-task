@@ -45,7 +45,7 @@ function ListSection() {
 
     function Card({ index, style }) {
         return(
-            <div style={style}>
+            <div className="event_wrapper" style={style}>
                 <Event {...TABS[activeTab].items[index]} />
             </div>
         )
