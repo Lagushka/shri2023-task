@@ -13,6 +13,12 @@ function ListSection() {
     };
     const [hasRightScroll, setHasRightScroll] = React.useState(false);
 
+    const [windowWidth, setWindowWidth] = React.useState(window.innerWidth)
+
+    onresize = () => {
+        setWindowWidth(window.innerWidth)
+    }
+
     let basicWidth = 200;
 
     useEffect(() => {
@@ -102,7 +108,7 @@ function ListSection() {
                             itemCount={TABS[activeTab].items.length}
                             itemSize={215}
                             layout="horizontal"
-                            width={window.innerWidth > 1024 ? window.innerWidth - 40 - 14 : window.innerWidth > 768 ? window.innerWidth - 80 : window.innerWidth - 40 }
+                            width={windowWidth > 1024 ? windowWidth - 40 - 14 : windowWidth > 768 ? windowWidth - 80 : windowWidth - 40 }
                           >
                             {Card}
                           </FixedSizeList>
