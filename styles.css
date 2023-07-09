@@ -414,6 +414,10 @@ html, body {
     }
 }
 
+.event {
+    width: 200px;
+}
+
 .event__button {
     position: relative;
     display: flex;
@@ -509,23 +513,23 @@ html, body {
     }
 }
 
-.section__panel {
+.section__panel-list {
     padding-bottom: .625rem;
     overflow-x: auto;
     scrollbar-width: none;
+    margin: 0;
 }
 
-.section__panel::-webkit-scrollbar {
+.section__panel-list::-webkit-scrollbar {
     display: none;
 }
 
-.section__panel-list {
+/* .section__panel-list {
     display: flex;
     gap: 0.9375rem;
     margin: 0;
     padding: 0;
-    list-style: none;
-}
+} */
 
 .section__panel-wrapper {
     position: relative;

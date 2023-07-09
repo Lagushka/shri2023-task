@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import Event from "./Event";
 import { TABS, TABS_KEYS } from "../utils";
-// import { FixedSizeList } from "react-window";
+import { FixedSizeList } from "react-window";
 
 function ListSection() {
     const [activeTab, setActiveTab] = React.useState('');
@@ -27,7 +27,7 @@ function ListSection() {
     }, [activeTab, hasRightScroll, basicWidth]);
 
     const onArrowCLick = () => {
-        const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
+        const scroller = ref.current.querySelector('.section__panel-list');
         if (scroller) {
             scroller.scrollTo({
                 left: scroller.scrollLeft + 400,
@@ -43,9 +43,13 @@ function ListSection() {
         }
     }, [activeTab, initedRef]);
 
-    // function Card({ index }) {
-    //     return <Event {...TABS[activeTab].items[index]} />
-    // }
+    function Card({ index, style }) {
+        return(
+            <div style={style}>
+                <Event {...TABS[activeTab].items[index]} />
+            </div>
+        )
+    }
 
     return (
         <section className="section main__devices" ref={ref}>
@@ -82,25 +86,27 @@ function ListSection() {
 
           <div className="section__panel-wrapper">
                 {
-                  activeTab && <div key={activeTab} role="tabpanel" className={'section__panel'} id={`panel_${activeTab}`} aria-labelledby={`tab_${activeTab}`}>
-                      <div className="section__panel-list">
-                          {
+                  activeTab && 
+                  <div key={activeTab} role="tabpanel" className={'section__panel'} id={`panel_${activeTab}`} aria-labelledby={`tab_${activeTab}`}>
+                      {/* <div className="section__panel-list"> */}
+                          {/* {
                               TABS[activeTab].items.map((item, index) => 
                               <Event
                                   key={index}
                                   {...item}
                               /> 
-                          )}
-                          {/* <FixedSizeList
+                          )} */}
+                          <FixedSizeList
+                            className="section__panel-list"
                             height={120}
                             itemCount={TABS[activeTab].items.length}
-                            itemSize={200}
+                            itemSize={215}
                             layout="horizontal"
-                            width={1729}
+                            width={window.innerWidth > 1024 ? window.innerWidth - 40 - 14 : window.innerWidth > 768 ? window.innerWidth - 80 : window.innerWidth - 40 }
                           >
                             {Card}
-                          </FixedSizeList> */}
-                      </div>
+                          </FixedSizeList>
+                      {/* </div> */}
                   </div>
                 }
               {hasRightScroll &&
