@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from "react";
 import Event from "./Event";
 import { TABS, TABS_KEYS } from "../utils";
+// import { FixedSizeList } from "react-window";
 
-function List() {
+function ListSection() {
     const [activeTab, setActiveTab] = React.useState('');
     const initedRef = React.useRef(false);
     const ref = React.useRef();
@@ -41,6 +43,10 @@ function List() {
         }
     }, [activeTab, initedRef]);
 
+    // function Card({ index }) {
+    //     return <Event {...TABS[activeTab].items[index]} />
+    // }
+
     return (
         <section className="section main__devices" ref={ref}>
           <div className="section__title">
@@ -77,7 +83,7 @@ function List() {
           <div className="section__panel-wrapper">
                 {
                   activeTab && <div key={activeTab} role="tabpanel" className={'section__panel'} id={`panel_${activeTab}`} aria-labelledby={`tab_${activeTab}`}>
-                      <ul className="section__panel-list">
+                      <div className="section__panel-list">
                           {
                               TABS[activeTab].items.map((item, index) => 
                               <Event
@@ -85,7 +91,16 @@ function List() {
                                   {...item}
                               /> 
                           )}
-                      </ul>
+                          {/* <FixedSizeList
+                            height={120}
+                            itemCount={TABS[activeTab].items.length}
+                            itemSize={200}
+                            layout="horizontal"
+                            width={1729}
+                          >
+                            {Card}
+                          </FixedSizeList> */}
+                      </div>
                   </div>
                 }
               {hasRightScroll &&
@@ -187,6 +202,6 @@ export default function Main() {
               />
           </ul>
       </section>
-      <List />
+      <ListSection />
   </main>;
 }
